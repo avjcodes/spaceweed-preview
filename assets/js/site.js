@@ -150,12 +150,12 @@
   /* ---------- About: the Space Cadet traits light up one at a time ---------- */
   const traits = document.querySelectorAll(".traits span");
   if (traits.length) {
-    if (reduced || !("IntersectionObserver" in window)) traits.forEach((t) => t.classList.add("is-lit"));
+    if (reduced) traits.forEach((t) => t.classList.add("is-lit"));
     else {
-      const tio = new IntersectionObserver((entries) => {
-        entries.forEach((en) => { if (en.isIntersecting || en.boundingClientRect.top < 0) { en.target.classList.add("is-lit"); tio.unobserve(en.target); } });
-      }, { rootMargin: "0px 0px -35% 0px" });
-      traits.forEach((t) => tio.observe(t));
+      // Checked on every scroll, so a jump past them (Page Down, a link) still lights each one it passed.
+      const light = () => traits.forEach((t) => { if (t.getBoundingClientRect().top < window.innerHeight * 0.65) t.classList.add("is-lit"); });
+      light();
+      window.addEventListener("scroll", light, { passive: true });
     }
   }
 
