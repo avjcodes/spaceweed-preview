@@ -4,7 +4,7 @@
   doc.classList.remove("no-js");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Age gate: "Have you existed on this earth for 21+ years?" ---------- */
+  /* ---------- Age gate: "Are you 21 or older?" ---------- */
   const gate = document.querySelector("[data-gate]");
   if (gate) {
     let ok = false;
