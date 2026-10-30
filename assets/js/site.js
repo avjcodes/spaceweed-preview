@@ -4,11 +4,11 @@
   doc.classList.remove("no-js");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Age gate: "Are you 21 or older?" ---------- */
+  /* ---------- Age gate: asks on every load and refresh, a Yes only carries across clicks between pages ---------- */
   const gate = document.querySelector("[data-gate]");
   if (gate) {
     let ok = false;
-    try { ok = sessionStorage.getItem("sw-21") === "yes"; } catch (e) { ok = false; }
+    try { ok = sessionStorage.getItem("sw-21") === "yes" && (function () { var n = performance.getEntriesByType('navigation')[0], t = n ? n.type : ''; return t !== 'reload' && (t === 'back_forward' || document.referrer.indexOf(location.origin) === 0); })(); } catch (e) { ok = false; }
     if (!ok) {
       gate.hidden = false;
       document.body.classList.add("gate-open");
